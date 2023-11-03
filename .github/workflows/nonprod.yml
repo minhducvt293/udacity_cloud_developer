@@ -1,12 +1,11 @@
-# Workflow to ensure whenever a Github PR is submitted, 
-# a JIRA ticket gets created automatically. 
-name: Manual Workflow
+# Deploy to Non Prod env when PR created
+name: Non Prod
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on pull request events but only for the master branch
-  pull_request_target:
-    types: [opened, reopened]
+  pull_request:
+    branches:    
+      - 'releases/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
