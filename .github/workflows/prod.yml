@@ -3,8 +3,6 @@ name: Non Prod
 
 # Controls when the action will run. 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
   push:
     branches:
       - main
@@ -14,7 +12,7 @@ env:
 jobs:
   print_aws_access_key:
     steps:
-      - name: test echo variable
+      - 
       - run: |
           echo ${{ secrets.ENV_PRODUCTION_FILE }}
 
