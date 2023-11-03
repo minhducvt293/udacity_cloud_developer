@@ -13,6 +13,7 @@ env:
   AWS_ACCESS_KEY: ${{ secrets.TEST_SECRET }}
 jobs:
   print_aws_access_key:
+    runs-on: ubuntu-latest
     steps:
       - name: test echo variable
         uses: actions/checkout@v3
