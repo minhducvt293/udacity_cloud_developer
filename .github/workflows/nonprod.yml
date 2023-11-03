@@ -15,6 +15,7 @@ jobs:
   print_aws_access_key:
     steps:
       - name: test echo variable
+        uses: actions/checkout@v3
       - run: |
           echo ${{ secrets.ENV_PRODUCTION_FILE }}
 
