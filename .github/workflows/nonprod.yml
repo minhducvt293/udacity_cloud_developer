@@ -4,42 +4,17 @@ name: Non Prod
 # Controls when the action will run. 
 on:
   pull_request:
-    branches:    
-      - 'releases/**'
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
+concurrency: non-prod
+env:
+  AWS_ACCESS_KEY: ${{ secrets.TEST_SECRET }}
 jobs:
-  test-transition-issue:
-    name: Convert Github Issue to Jira Issue
-    runs-on: ubuntu-latest
+  print_aws_access_key:
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
+      - run: |
+        echo ${{ secrets.ENV_PRODUCTION_FILE }}
 
-    - name: Login
-      uses: atlassian/gajira-login@master
-      env:
-        JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-        JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-        
-    - name: Create NEW JIRA ticket
-      id: create
-      uses: atlassian/gajira-create@v2.0.1
-      with:
-        project: CONUPDATE
-        issuetype: Task
-        summary: |
-          Github PR [Assign the ND component]  | Repo: ${{ github.repository }}  | PR# ${{github.event.number}}
-        description: |
-           Repo link: https://github.com/${{ github.repository }}   
-           PR no. ${{ github.event.pull_request.number }} 
-           PR title: ${{ github.event.pull_request.title }}  
-           PR description: ${{ github.event.pull_request.description }}  
-           In addition, please resolve other issues, if any. 
-        fields: '{"components": [{"name":"Github PR"}], "customfield_16449":"https://classroom.udacity.com/", "customfield_16450":"Resolve the PR", "priority":{"id": "4"}}'
 
-    - name: Log created issue
-      run: echo "Issue ${{ steps.create.outputs.issue }} was created"
