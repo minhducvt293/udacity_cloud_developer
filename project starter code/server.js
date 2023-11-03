@@ -4,7 +4,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util.js';
 
 
 
-// Init the Express application1
+// Init the Express application12
 const app = express();
 
 // Set the network port
